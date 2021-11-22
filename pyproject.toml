@@ -1,0 +1,8 @@
+[tool.black]
+line-length=99
+
+[tool.isort]
+known_third_party = ["brownie", "pytest"]
+line_length = 99
+profile = "black"
+multi_line_output = 3
