@@ -1,5 +1,14 @@
 # $WGMI NFT Contract
 
+## Discussion
+
+**Discord**
+
+- Invite: https://discord.com/invite/UrC32AKzyG
+- \#dev-talk: https://discord.com/channels/908727219600388207/909143956632260628
+- \#dev-talk/multi-sig: https://discord.com/channels/908727219600388207/912380991786590269
+- \#nft: https://discord.com/channels/908727219600388207/909789293344616448
+
 ## Prerequisites
 
 Please install or have installed the following:
