@@ -10,7 +10,7 @@ contract WGMINFT is ERC721Enumerable, Ownable {
     string public baseExtension = "";
     string public notRevealedUri;
     uint256 public cost = 0.5 ether;
-    uint256 public maxSupply = 10000;
+    uint256 public maxSupply = 888;
     uint256 public nftPerAddressLimit = 10;
     uint256 public whitelistNftPerAddressLimit = 3;
     bool public paused = false;
@@ -135,8 +135,8 @@ contract WGMINFT is ERC721Enumerable, Ownable {
         whitelistedAddresses = _users;
     }
 
-    function withdraw() public payable onlyOwner {
-        (bool success, ) = payable(owner()).call{value: address(this).balance}("");
+    function withdraw(address _to) public payable onlyOwner {
+        (bool success, ) = payable(_to).call{value: address(this).balance}("");
         require(success, "withdrawal failed");
     }
 }
