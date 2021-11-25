@@ -20,6 +20,7 @@ class TestWithdrawal:
         self.owner = get_account()
         self.non_owner = get_account(index=2)
         self.ORIGINAL_OWNER_BALANCE = self.owner.balance()
+        self.community_owner = get_account(index=4)
 
         # Deploy and disable onlyWhitelisted
         self.collectible = WGMINFT.deploy(
@@ -27,6 +28,7 @@ class TestWithdrawal:
             "MCN",
             "INITIAL_BASE_URI",
             "INITIAL_NOT_REVEALED_URI",
+            self.community_owner,
             {"from": self.owner},
         )
         self.collectible.setOnlyWhitelisted(False, {"from": self.owner})

@@ -33,6 +33,7 @@ class TestPublicMethods:
 
         self.owner = get_account()
         self.non_owner = get_account(index=2)
+        self.community_owner = get_account(index=4)
 
         # Deploy
         self.collectible = WGMINFT.deploy(
@@ -40,6 +41,7 @@ class TestPublicMethods:
             "MCN",
             "my_initial_base_uri",
             "my_initial_not_revealed_uri",
+            self.community_owner,
             {"from": self.owner},
         )
 

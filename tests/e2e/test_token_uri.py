@@ -18,6 +18,7 @@ class TestTokenUri:
         self.owner = get_account()
         self.non_owner = get_account(index=2)
         self.ORIGINAL_OWNER_BALANCE = self.owner.balance()
+        self.community_owner = get_account(index=4)
 
         # Deploy
         self.collectible = WGMINFT.deploy(
@@ -25,6 +26,7 @@ class TestTokenUri:
             "MCN",
             "initial_base_uri_example/",
             "initial_not_revealed_uri_example/",
+            self.community_owner,
             {"from": self.owner},
         )
         self.collectible.pause(False, {"from": self.owner})
