@@ -1,6 +1,12 @@
-on: ["push", "pull_request"]
-
 name: main workflow
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - "**"
 
 env:
   # ETHERSCAN_TOKEN:
