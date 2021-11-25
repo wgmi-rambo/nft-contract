@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-from brownie import WGMINFT, accounts, network, config
-from scripts.helpful_scripts import OPENSEA_FORMAT
+from brownie import WGMINFT, accounts, config, network
 
 
 def main():

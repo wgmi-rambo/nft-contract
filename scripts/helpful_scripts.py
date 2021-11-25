@@ -1,11 +1,4 @@
-from brownie import (
-    network,
-    accounts,
-    config,
-    interface,
-    Contract,
-)
-
+from brownie import accounts, config, network
 
 OPENSEA_FORMAT = "https://testnets.opensea.io/assets/{}/{}"
 NON_FORKED_LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["hardhat", "development", "ganache"]
