@@ -25,8 +25,8 @@ abstract contract CommunityOwnable is Context {
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor(address communityOwner) {
-        _transferCommunityOwnership(communityOwner);
+    constructor(address _communityOwner) {
+        _transferCommunityOwnership(_communityOwner);
     }
 
     /**
