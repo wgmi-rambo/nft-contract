@@ -1,23 +1,85 @@
+project_structure:
+    build: build
+    contracts: contracts
+    interfaces: interfaces
+    reports: reports
+    scripts: scripts
+    tests: tests
+
+compiler:
+    solc:
+        version: 0.8.0
+        optimizer:
+            enabled: true
+            runs: 200
+        remappings:
+            - '@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.1.0'
+
+dependencies:
+    - OpenZeppelin/openzeppelin-contracts@4.1.0
+
 # exclude SafeMath when calculating test coverage
 # https://eth-brownie.readthedocs.io/en/v1.10.3/config.html#exclude_paths
 reports:
-  exclude_contracts:
-    - SafeMath
-dependencies:
-  - OpenZeppelin/openzeppelin-contracts@4.1.0
-compiler:
-  solc:
-    version: 0.8.0
-    remappings:
-      - '@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.1.0'
-# automatically fetch contract sources from Etherscan
-autofetch_sources: True
-dotenv: .env
-# set a custom mnemonic for the development network
+    exclude_contracts:
+        - SafeMath
+        - Ownable
+        - ERC721
+        - ERC721Enumerable
+        - Strings
+
 networks:
-  default: development
+    default: development
+    development:
+        gas_limit: max
+        gas_buffer: 1
+        gas_price: 0
+        max_fee: null
+        priority_fee: null
+        reverting_tx_gas_limit: max
+        default_contract_owner: true
+        cmd_settings: null
+    rinkeby:
+        gas_limit: auto
+        gas_buffer: 1.1
+        gas_price: auto
+        max_fee: null
+        priority_fee: null
+        reverting_tx_gas_limit: false
+        default_contract_owner: false
+    live:
+        gas_limit: auto
+        gas_buffer: 1.1
+        gas_price: auto
+        max_fee: null
+        priority_fee: null
+        reverting_tx_gas_limit: false
+        default_contract_owner: false
+
+console:
+    show_colors: true
+    color_style: monokai
+    auto_suggest: true
+    completions: true
+    editing_mode: emacs
+
+hypothesis:
+    deadline: null
+    max_examples: 50
+    report_multiple_bugs: False
+    stateful_step_count: 10
+    phases:
+        explicit: true
+        reuse: true
+        generate: true
+        target: true
+        shrink: true
+
+dev_deployment_artifacts: false
+
+autofetch_sources: True
+
+dotenv: .env
 
 wallets:
-  from_key: ${CREATOR_PRIVATE_KEY}
-  from_mnemonic: ${CREATOR_PRIVATE_MNEMONIC}
-  # You'd have to change the accounts.add to accounts.from_mnemonic to use from_mnemonic
+    from_key: ${CREATOR_PRIVATE_KEY}
