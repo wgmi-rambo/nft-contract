@@ -40,7 +40,7 @@ abstract contract CommunityOwnable is Context {
      * @dev Throws if called by any account other than the owner.
      */
     modifier onlyCommunityOwner() {
-        require(owner() == _msgSender(), "CommunityOwnable: caller is not the community owner");
+        require(communityOwner() == _msgSender(), "CommunityOwnable: caller is not the community owner");
         _;
     }
 
@@ -52,7 +52,7 @@ abstract contract CommunityOwnable is Context {
      * thereby removing any functionality that is only available to the owner.
      */
     function renounceCommunityOwnership() public virtual onlyCommunityOwner {
-        _transferOwnership(address(0));
+        _transferCommunityOwnership(address(0));
     }
 
     /**
@@ -61,7 +61,7 @@ abstract contract CommunityOwnable is Context {
      */
     function transferCommunityOwnership(address newOwner) public virtual onlyCommunityOwner {
         require(newOwner != address(0), "CommunityOwnable: new owner is the zero address");
-        _transferOwnership(newOwner);
+        _transferCommunityOwnership(newOwner);
     }
 
     /**
