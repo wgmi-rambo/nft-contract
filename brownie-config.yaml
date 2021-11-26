@@ -27,6 +27,7 @@ reports:
         - ERC721
         - ERC721Enumerable
         - Strings
+        - contracts/mocks/**/*.*
 
 networks:
     default: development

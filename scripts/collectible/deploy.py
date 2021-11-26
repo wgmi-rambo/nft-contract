@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os
-from brownie import WGMINFT, accounts, network, config
+
+from brownie import WGMINFT, accounts, config, network
 
 # Constructor Config
 NFT_NAME = "WGMINFT Name"

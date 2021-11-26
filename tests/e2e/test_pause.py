@@ -15,6 +15,7 @@ class TestPause:
 
         self.owner = get_account()
         self.non_owner = get_account(index=2)
+        self.community_owner = get_account(index=4)
 
         # Deploy and disable onlyWhitelisted
         self.collectible = WGMINFT.deploy(
@@ -22,6 +23,7 @@ class TestPause:
             "MCN",
             "INITIAL_BASE_URI",
             "INITIAL_NOT_REVEALED_URI",
+            self.community_owner,
             {"from": self.owner},
         )
         self.collectible.setOnlyWhitelisted(False, {"from": self.owner})

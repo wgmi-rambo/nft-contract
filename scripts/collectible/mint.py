@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import os
-from brownie import WGMINFT, accounts, network, config
+
+from brownie import WGMINFT, accounts, network
+
 from scripts.helpful_scripts import OPENSEA_FORMAT
 
 

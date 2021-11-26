@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-from brownie import WGMINFT, accounts, network, config, interface
 import json
+
+from brownie import WGMINFT
 
 
 def main():

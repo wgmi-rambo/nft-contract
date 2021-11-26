@@ -112,4 +112,3 @@ brownie run scripts/collectible/deploy.py --network rinkeby
 ```bash
 brownie run scripts/collectible/mint.py --network rinkeby
 ```
-

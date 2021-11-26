@@ -1,9 +1,13 @@
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract WGMINFT is ERC721Enumerable, Ownable {
+import "./CommunityOwnable.sol";
+
+contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     using Strings for uint256;
 
     string public baseURI;
@@ -23,8 +27,11 @@ contract WGMINFT is ERC721Enumerable, Ownable {
         string memory _name,
         string memory _symbol,
         string memory _initBaseURI,
-        string memory _initNotRevealedUri
-        ) ERC721(_name, _symbol) {
+        string memory _initNotRevealedUri,
+        address _communityOwner
+        )
+    ERC721(_name, _symbol)
+    CommunityOwnable(_communityOwner) {
         setBaseURI(_initBaseURI);
         setNotRevealedURI(_initNotRevealedUri);
     }

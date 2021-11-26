@@ -18,6 +18,7 @@ class TestNonWhitelistMinting:
         self.owner = get_account()
         self.non_owner = get_account(index=2)
         self.non_owner_2 = get_account(index=3)
+        self.community_owner = get_account(index=4)
 
         # Deploy, disable onlyWhitelisted, and unpause
         self.collectible = WGMINFT.deploy(
@@ -25,6 +26,7 @@ class TestNonWhitelistMinting:
             "MCN",
             "INITIAL_BASE_URI",
             "INITIAL_NOT_REVEALED_URI",
+            self.community_owner,
             {"from": self.owner},
         )
         self.collectible.setOnlyWhitelisted(False, {"from": self.owner})
@@ -175,6 +177,7 @@ class TestWhitelistMinting:
         self.owner = get_account()
         self.non_owner = get_account(index=2)
         self.non_owner_2 = get_account(index=3)
+        self.community_owner = get_account(index=4)
 
         # Deploy, and unpause
         self.collectible = WGMINFT.deploy(
@@ -182,6 +185,7 @@ class TestWhitelistMinting:
             "MCN",
             "INITIAL_BASE_URI",
             "INITIAL_NOT_REVEALED_URI",
+            self.community_owner,
             {"from": self.owner},
         )
         self.collectible.pause(False, {"from": self.owner})
