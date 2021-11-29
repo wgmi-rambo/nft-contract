@@ -28,7 +28,7 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
         string memory _symbol,
         string memory _initBaseURI,
         string memory _initNotRevealedUri,
-        address memory _communityOwner
+        address _communityOwner
         )
     ERC721(_name, _symbol)
     CommunityOwnable(_communityOwner) {
