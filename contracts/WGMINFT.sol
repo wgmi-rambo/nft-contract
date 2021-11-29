@@ -48,20 +48,18 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
         uint256 supply = totalSupply();
         require(supply + _mintAmount <= maxSupply, "max NFT limit exceeded");
 
-        if (msg.sender != owner()) {
-            uint256 senderMintedCount = addressMintedBalance[msg.sender];
+        uint256 senderMintedCount = addressMintedBalance[msg.sender];
 
-            if(onlyWhitelisted == true) {
-                require(isWhitelisted(msg.sender), "user is not whitelisted");
-                require(
-                    senderMintedCount + _mintAmount <= whitelistNftPerAddressLimit,
-                    "max NFT per address exceeded while onlyWhitelisted is true"
-                );
-            }
-
-            require(msg.value >= cost * _mintAmount, "insufficient funds");
-            require(senderMintedCount + _mintAmount <= nftPerAddressLimit, "max NFT per address exceeded");
+        if(onlyWhitelisted == true) {
+            require(isWhitelisted(msg.sender), "user is not whitelisted");
+            require(
+                senderMintedCount + _mintAmount <= whitelistNftPerAddressLimit,
+                "max NFT per address exceeded while onlyWhitelisted is true"
+            );
         }
+
+        require(msg.value >= cost * _mintAmount, "insufficient funds");
+        require(senderMintedCount + _mintAmount <= nftPerAddressLimit, "max NFT per address exceeded");
 
         for (uint256 i = 1; i <= _mintAmount; i++) {
             addressMintedBalance[msg.sender]++;
