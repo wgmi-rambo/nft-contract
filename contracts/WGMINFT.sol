@@ -18,7 +18,7 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     uint256 public nftPerAddressLimit = 10;
     uint256 public whitelistNftPerAddressLimit = 3;
     bool public paused = false;
-    bool public revealed = true;
+    bool public revealed = false;
     bool public onlyWhitelisted = true;
     address[] public whitelistedAddresses;
     mapping(address => uint256) public addressMintedBalance;
@@ -101,7 +101,7 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     }
 
     // only owner
-    function reveal() public onlyCommunityOwner {
+    function reveal() public onlyOwner {
         revealed = true;
     }
 
