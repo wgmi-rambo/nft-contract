@@ -32,8 +32,8 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
         )
     ERC721(_name, _symbol)
     CommunityOwnable(_communityOwner) {
-        setBaseURI(_initBaseURI);
-        setNotRevealedURI(_initNotRevealedUri);
+        initSetBaseURI(_initBaseURI);
+        initSetNotRevealedURI(_initNotRevealedUri);
     }
 
     // internal
@@ -145,5 +145,13 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     function withdraw() public payable onlyCommunityOwner {
         (bool success, ) = payable(owner()).call{value: address(this).balance}("");
         require(success, "withdrawal failed");
+    }
+
+
+    function initSetBaseURI(string memory _notRevealedURI) internal onlyOwner {
+        baseURI = _notRevealedURI;
+    }
+    function initSetNotRevealedURI(string memory _newBaseURI) internal  onlyOwner {
+        notRevealedUri = _newBaseURI;
     }
 }
