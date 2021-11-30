@@ -193,16 +193,6 @@ class TestWhitelistMinting:
         # Add non_owner to whitelist
         self.collectible.whitelistUsers([self.non_owner], {"from": self.community_owner})
 
-    def test_can_mint_single(self):
-        """A single token should be minted by the owner, even though he's not on the whitelist."""
-
-        self.collectible.mint(1, {"from": self.owner, "amount": MINT_PRICE})
-        assert self.collectible.ownerOf(1) == self.owner
-
-        # Only 1 token should be minted.
-        with reverts("ERC721: owner query for nonexistent token"):
-            self.collectible.ownerOf(2)
-
     def test_can_mint(self):
         """A single token should be minted, since the sender is on the whitelist."""
 
