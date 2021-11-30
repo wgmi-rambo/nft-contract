@@ -191,7 +191,7 @@ class TestWhitelistMinting:
         self.collectible.pause(False, {"from": self.owner})
 
         # Add non_owner to whitelist
-        self.collectible.whitelistUsers([self.non_owner], {"from": self.owner})
+        self.collectible.whitelistUsers([self.non_owner], {"from": self.community_owner})
 
     def test_can_mint_single(self):
         """A single token should be minted by the owner, even though he's not on the whitelist."""
@@ -307,7 +307,9 @@ class TestWhitelistMinting:
         """Multiple whitelisted users should be able to mint."""
 
         # Add non_owner to whitelist
-        self.collectible.whitelistUsers([self.non_owner, self.non_owner_2], {"from": self.owner})
+        self.collectible.whitelistUsers(
+            [self.non_owner, self.non_owner_2], {"from": self.community_owner}
+        )
 
         quantity = WHITELIST_NFT_PER_ADDRESS_LIMIT
         token_ids = range(1, quantity + 1)

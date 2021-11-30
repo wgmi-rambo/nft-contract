@@ -57,14 +57,15 @@ class TestPublicMethods:
 
         # assert nftPerAddressLimit is NFT_PER_ADDRESS_LIMIT
         assert (
-            self.collectible.nftPerAddressLimit.call({"from": self.owner}) == NFT_PER_ADDRESS_LIMIT
+            self.collectible.nftPerAddressLimit.call({"from": self.community_owner})
+            == NFT_PER_ADDRESS_LIMIT
         )
 
         # call setNftPerAddressLimit(5)
-        self.collectible.setNftPerAddressLimit(5, {"from": self.owner})
+        self.collectible.setNftPerAddressLimit(5, {"from": self.community_owner})
 
         # assert nftPerAddressLimit is 5
-        assert self.collectible.nftPerAddressLimit.call({"from": self.owner}) == 5
+        assert self.collectible.nftPerAddressLimit.call({"from": self.community_owner}) == 5
 
         # Try to mint 6 tokens
         with pytest.raises(VirtualMachineError):
@@ -78,19 +79,21 @@ class TestPublicMethods:
         """
 
         # Add non_owner to whitelist
-        self.collectible.whitelistUsers([self.non_owner], {"from": self.owner})
+        self.collectible.whitelistUsers([self.non_owner], {"from": self.community_owner})
 
         # assert whitelistNftPerAddressLimit is WHITELIST_NFT_PER_ADDRESS_LIMIT
         assert (
-            self.collectible.whitelistNftPerAddressLimit.call({"from": self.owner})
+            self.collectible.whitelistNftPerAddressLimit.call({"from": self.community_owner})
             == WHITELIST_NFT_PER_ADDRESS_LIMIT
         )
 
         # call setNftPerAddressLimit(1)
-        self.collectible.setWhitelistNftPerAddressLimit(1, {"from": self.owner})
+        self.collectible.setWhitelistNftPerAddressLimit(1, {"from": self.community_owner})
 
         # assert whitelistNftPerAddressLimit is 1
-        assert self.collectible.whitelistNftPerAddressLimit.call({"from": self.owner}) == 1
+        assert (
+            self.collectible.whitelistNftPerAddressLimit.call({"from": self.community_owner}) == 1
+        )
 
         # Try to mint 2 tokens
         with pytest.raises(VirtualMachineError):
@@ -109,10 +112,10 @@ class TestPublicMethods:
 
         # call setNftPerAddressLimit(5)
         new_mint_cost = Wei("10 ether")
-        self.collectible.setCost(new_mint_cost, {"from": self.owner})
+        self.collectible.setCost(new_mint_cost, {"from": self.community_owner})
 
         # assert whitelistNftPerAddressLimit is 1
-        assert self.collectible.cost.call({"from": self.owner}) == new_mint_cost
+        assert self.collectible.cost.call({"from": self.community_owner}) == new_mint_cost
 
     def test_method_setBaseURI(self):
         """
@@ -126,7 +129,7 @@ class TestPublicMethods:
         assert self.collectible.baseURI() == "my_initial_base_uri"
 
         # call setBaseURI
-        self.collectible.setBaseURI("my_new_base_uri", {"from": self.owner})
+        self.collectible.setBaseURI("my_new_base_uri", {"from": self.community_owner})
 
         # assert whitelistNftPerAddressLimit is 1
         assert self.collectible.baseURI() == "my_new_base_uri"
@@ -140,13 +143,13 @@ class TestPublicMethods:
         non_owner_2 = get_account(index=6)
 
         # Add non_owner to whitelist
-        self.collectible.whitelistUsers([self.non_owner], {"from": self.owner})
+        self.collectible.whitelistUsers([self.non_owner], {"from": self.community_owner})
 
         # assert non_owner is whitelisted
         assert self.collectible.isWhitelisted(self.non_owner) is True
 
         # Add non_owner_2 to whitelist
-        self.collectible.whitelistUsers([non_owner_2], {"from": self.owner})
+        self.collectible.whitelistUsers([non_owner_2], {"from": self.community_owner})
 
         # assert non_owner is whitelisted
         assert self.collectible.isWhitelisted(non_owner_2) is True
