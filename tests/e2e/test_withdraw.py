@@ -46,7 +46,7 @@ class TestWithdrawal:
         assert self.collectible.balance() == MINT_PRICE * 2
 
         # withdraw
-        self.collectible.withdraw({"from": self.owner})
+        self.collectible.withdraw({"from": self.community_owner})
 
         # assert owner has MINT_PRICE + original balance
         assert self.owner.balance() == MINT_PRICE + self.ORIGINAL_OWNER_BALANCE
@@ -60,5 +60,5 @@ class TestWithdrawal:
         assert self.collectible.balance() == MINT_PRICE * 2
 
         # withdraw
-        with reverts("Ownable: caller is not the owner"):
+        with reverts("CommunityOwnable: caller is not the community owner"):
             self.collectible.withdraw({"from": self.non_owner})

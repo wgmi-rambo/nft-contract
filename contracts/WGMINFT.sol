@@ -18,7 +18,7 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     uint256 public nftPerAddressLimit = 10;
     uint256 public whitelistNftPerAddressLimit = 3;
     bool public paused = false;
-    bool public revealed = true;
+    bool public revealed = false;
     bool public onlyWhitelisted = true;
     address[] public whitelistedAddresses;
     mapping(address => uint256) public addressMintedBalance;
@@ -32,8 +32,8 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
         )
     ERC721(_name, _symbol)
     CommunityOwnable(_communityOwner) {
-        setBaseURI(_initBaseURI);
-        setNotRevealedURI(_initNotRevealedUri);
+        initSetBaseURI(_initBaseURI);
+        initSetNotRevealedURI(_initNotRevealedUri);
     }
 
     // internal
@@ -105,27 +105,27 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
         revealed = true;
     }
 
-    function setNftPerAddressLimit(uint256 _limit) public onlyOwner {
+    function setNftPerAddressLimit(uint256 _limit) public onlyCommunityOwner {
         nftPerAddressLimit = _limit;
     }
 
-    function setWhitelistNftPerAddressLimit(uint256 _limit) public onlyOwner {
+    function setWhitelistNftPerAddressLimit(uint256 _limit) public onlyCommunityOwner {
         whitelistNftPerAddressLimit = _limit;
     }
 
-    function setCost(uint256 _newCost) public onlyOwner {
+    function setCost(uint256 _newCost) public onlyCommunityOwner {
         cost = _newCost;
     }
 
-    function setBaseURI(string memory _newBaseURI) public onlyOwner {
+    function setBaseURI(string memory _newBaseURI) public onlyCommunityOwner {
         baseURI = _newBaseURI;
     }
 
-    function setBaseExtension(string memory _newBaseExtension) public onlyOwner {
+    function setBaseExtension(string memory _newBaseExtension) public onlyCommunityOwner {
         baseExtension = _newBaseExtension;
     }
 
-    function setNotRevealedURI(string memory _notRevealedURI) public onlyOwner {
+    function setNotRevealedURI(string memory _notRevealedURI) public onlyCommunityOwner {
         notRevealedUri = _notRevealedURI;
     }
 
@@ -137,13 +137,21 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
         onlyWhitelisted = _state;
     }
 
-    function whitelistUsers(address[] calldata _users) public onlyOwner {
+    function whitelistUsers(address[] calldata _users) public onlyCommunityOwner {
         delete whitelistedAddresses;
         whitelistedAddresses = _users;
     }
 
-    function withdraw() public payable onlyOwner {
+    function withdraw() public payable onlyCommunityOwner {
         (bool success, ) = payable(owner()).call{value: address(this).balance}("");
         require(success, "withdrawal failed");
+    }
+
+
+    function initSetBaseURI(string memory _notRevealedURI) internal onlyOwner {
+        baseURI = _notRevealedURI;
+    }
+    function initSetNotRevealedURI(string memory _newBaseURI) internal  onlyOwner {
+        notRevealedUri = _newBaseURI;
     }
 }
