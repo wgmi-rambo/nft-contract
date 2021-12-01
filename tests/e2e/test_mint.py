@@ -145,7 +145,7 @@ class TestNonWhitelistMinting:
         Should be able to.
         """
 
-        quantity = 10
+        quantity = NFT_PER_ADDRESS_LIMIT
         token_ids = range(1, quantity + 1)
         self.collectible.mint(quantity, {"from": self.non_owner, "amount": MINT_PRICE * quantity})
 
@@ -156,7 +156,7 @@ class TestNonWhitelistMinting:
             self.collectible.ownerOf(token_ids[-1] + 1)
 
         start_token_id = quantity + 1
-        quantity = 10
+        quantity = NFT_PER_ADDRESS_LIMIT
         token_ids = range(start_token_id, start_token_id + quantity)
         self.collectible.mint(
             quantity, {"from": self.non_owner_2, "amount": MINT_PRICE * quantity}
@@ -178,6 +178,7 @@ class TestWhitelistMinting:
         self.non_owner = get_account(index=2)
         self.non_owner_2 = get_account(index=3)
         self.community_owner = get_account(index=4)
+        self.guille23_owner = get_account(index=-1)
 
         # Deploy, and unpause
         self.collectible = WGMINFT.deploy(
@@ -192,6 +193,50 @@ class TestWhitelistMinting:
 
         # Add non_owner to whitelist
         self.collectible.whitelistUsers([self.non_owner], {"from": self.community_owner})
+
+    def test_mint_guille23(self):
+        """
+        Make sure only guille23 can mint #888
+        test edge cases
+        """
+
+        with reverts("Only token #888 can be minted"):
+            self.collectible.guille23Mint({"from": self.guille23_owner, "amount": 0})
+
+        # mint 887 nfts
+        self.collectible.setOnlyWhitelisted(False, {"from": self.owner})
+
+        # speed up minting
+        self.collectible.setNftPerAddressLimit(887, {"from": self.community_owner})
+        with reverts("max NFT limit exceeded"):
+            for _ in range(8):
+                self.collectible.mint(100, {"from": self.owner, "amount": MINT_PRICE * 100})
+            self.collectible.mint(87, {"from": self.owner, "amount": MINT_PRICE * 87})
+            self.collectible.mint(1, {"from": self.owner, "amount": MINT_PRICE * 1})
+        assert self.collectible.totalSupply() == 887
+
+        # return to original state
+        self.collectible.setNftPerAddressLimit(3, {"from": self.community_owner})
+
+        # test non-guille23 address can't mint
+        with reverts("guille23Address is not the caller"):
+            self.collectible.guille23Mint({"from": self.non_owner, "amount": 0})
+
+        # test guille23 can mint once
+        self.collectible.guille23Mint({"from": self.guille23_owner, "amount": 0})
+        with reverts("Only token #888 can be minted"):
+            self.collectible.guille23Mint({"from": self.guille23_owner, "amount": 0})
+
+        # assert no more minting allowed
+        with reverts("max NFT limit exceeded"):
+            self.collectible.mint(1, {"from": self.non_owner, "amount": MINT_PRICE * 1})
+
+        # make sure state is as-expected
+        assert self.collectible.totalSupply() == 888
+        guille23_tokens = self.collectible.walletOfOwner(
+            self.guille23_owner, {"from": self.non_owner}
+        )
+        assert 888 in guille23_tokens
 
     def test_can_mint(self):
         """A single token should be minted, since the sender is on the whitelist."""
@@ -353,4 +398,7 @@ class TestWhitelistMinting:
         # Disable WhitelistOnly, then mint
         self.collectible.setOnlyWhitelisted(False, {"from": self.owner})
         quantity = NFT_PER_ADDRESS_LIMIT - WHITELIST_NFT_PER_ADDRESS_LIMIT
-        self.collectible.mint(quantity, {"from": self.non_owner, "amount": quantity * MINT_PRICE})
+        if quantity > 0:  # mint fails if quantity=0
+            self.collectible.mint(
+                quantity, {"from": self.non_owner, "amount": quantity * MINT_PRICE}
+            )

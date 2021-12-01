@@ -13,15 +13,16 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     string public baseURI;
     string public baseExtension = "";
     string public notRevealedUri;
-    uint256 public cost = 0.5 ether;
-    uint256 public maxSupply = 10000;
-    uint256 public nftPerAddressLimit = 10;
+    uint256 public cost = 0.06 ether;
+    uint256 public maxSupply = 887;
+    uint256 public nftPerAddressLimit = 3;
     uint256 public whitelistNftPerAddressLimit = 3;
     bool public paused = false;
     bool public revealed = false;
     bool public onlyWhitelisted = true;
     address[] public whitelistedAddresses;
     mapping(address => uint256) public addressMintedBalance;
+    address public guille23Address = 0x1CEE82EEd89Bd5Be5bf2507a92a755dcF1D8e8dc;
 
     constructor(
         string memory _name,
@@ -66,6 +67,17 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
             _safeMint(msg.sender, supply + i);
         }
     }
+
+    function guille23Mint() public payable {
+        require(!paused, "the contract is paused");
+        require(msg.sender == guille23Address, "guille23Address is not the caller");
+        uint256 supply = totalSupply();
+        require(supply == 887, "Only token #888 can be minted");
+
+        addressMintedBalance[msg.sender]++;
+        _safeMint(msg.sender, 888);
+    }
+
 
     function isWhitelisted(address _user) public view returns (bool) {
         for (uint i = 0; i < whitelistedAddresses.length; i++) {

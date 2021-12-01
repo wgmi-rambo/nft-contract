@@ -1,5 +1,5 @@
 from brownie import Wei
 
-MINT_PRICE = Wei("0.5 ether")
-NFT_PER_ADDRESS_LIMIT = 10
+MINT_PRICE = Wei("0.06 ether")
+NFT_PER_ADDRESS_LIMIT = 3
 WHITELIST_NFT_PER_ADDRESS_LIMIT = 3
