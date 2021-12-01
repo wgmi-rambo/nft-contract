@@ -4,8 +4,8 @@ import os
 from brownie import WGMINFT, accounts, config, network
 
 # Constructor Config
-NFT_NAME = "WGMINFT Name"
-NFT_SYMBOL = "THE"
+NFT_NAME = "The Unruggables"
+NFT_SYMBOL = "UNRUG"
 METADATA_REVEAL_SECRET = os.getenv("METADATA_REVEAL_SECRET")
 INITIAL_BASE_URI = f"https://unrgblmd-4vb3u.ondigitalocean.app/{METADATA_REVEAL_SECRET}?id="
 INITIAL_NOT_REVEALED_URI = "https://unrgblmd-4vb3u.ondigitalocean.app/preview"
