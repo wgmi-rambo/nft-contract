@@ -21,6 +21,7 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     bool public revealed = false;
     bool public onlyWhitelisted = true;
     address[] public whitelistedAddresses;
+    address[] public devAddresses;
     mapping(address => uint256) public addressMintedBalance;
     address public guille23Address = 0x1CEE82EEd89Bd5Be5bf2507a92a755dcF1D8e8dc;
 
@@ -78,10 +79,35 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
         _safeMint(msg.sender, 888);
     }
 
+    function devMint(uint256 _mintAmount) public payable {
+        require(!paused, "the contract is paused");
+        require(isDev(msg.sender), "user is not dev");
+        require(_mintAmount > 0, "need to mint at least 1 NFT");
+
+        uint256 supply = totalSupply();
+        require(supply + _mintAmount <= maxSupply, "max NFT limit exceeded");
+
+        uint256 senderMintedCount = addressMintedBalance[msg.sender];
+        require(senderMintedCount + _mintAmount <= nftPerAddressLimit, "max NFT per address exceeded");
+
+        for (uint256 i = 1; i <= _mintAmount; i++) {
+            addressMintedBalance[msg.sender]++;
+            _safeMint(msg.sender, supply + i);
+        }
+    }
 
     function isWhitelisted(address _user) public view returns (bool) {
         for (uint i = 0; i < whitelistedAddresses.length; i++) {
             if (whitelistedAddresses[i] == _user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function isDev(address _user) public view returns (bool) {
+        for (uint i = 0; i < devAddresses.length; i++) {
+            if (devAddresses[i] == _user) {
                 return true;
             }
         }
@@ -150,6 +176,11 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     function whitelistUsers(address[] calldata _users) public onlyCommunityOwner {
         delete whitelistedAddresses;
         whitelistedAddresses = _users;
+    }
+
+    function setDevAddresses(address[] calldata _users) public onlyCommunityOwner {
+        delete devAddresses;
+        devAddresses = _users;
     }
 
     function withdraw() public payable onlyCommunityOwner {

@@ -178,6 +178,8 @@ class TestWhitelistMinting:
         self.non_owner = get_account(index=2)
         self.non_owner_2 = get_account(index=3)
         self.community_owner = get_account(index=4)
+        self.dev_1 = get_account(index=5)
+        self.dev_2= get_account(index=6)
         self.guille23_owner = get_account(index=-1)
 
         # Deploy, and unpause
@@ -237,6 +239,27 @@ class TestWhitelistMinting:
             self.guille23_owner, {"from": self.non_owner}
         )
         assert 888 in guille23_tokens
+
+    def test_dev_mint(self):
+        """
+        Test the developers 3-free mint functionality
+        """
+        #make sure non-dev can't mint with this method
+        with reverts("user is not dev"):
+            self.collectible.devMint(1, {"from":self.dev_1})
+
+        self.collectible.setDevAddresses(
+            [self.dev_1, self.dev_2],
+            {"from": self.community_owner}
+            )
+
+        #make sure dev can mint for free
+        self.collectible.devMint(NFT_PER_ADDRESS_LIMIT, {"from":self.dev_1})
+        self.collectible.devMint(1, {"from":self.dev_2})
+
+        #test limit per address on both methods
+        with reverts("max NFT per address exceeded"):
+            self.collectible.devMint(1, {"from":self.dev_1})
 
     def test_can_mint(self):
         """A single token should be minted, since the sender is on the whitelist."""
