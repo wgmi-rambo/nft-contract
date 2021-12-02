@@ -202,6 +202,9 @@ class TestWhitelistMinting:
         test edge cases
         """
 
+        # reset guille23 address for testing
+        self.collectible.setGuille23Address(self.guille23_owner, {"from": self.community_owner})
+
         with reverts("Only token #888 can be minted"):
             self.collectible.guille23Mint({"from": self.guille23_owner, "amount": 0})
 
