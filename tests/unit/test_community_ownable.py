@@ -22,7 +22,7 @@ class TestCommunityOwnable:
             self.community_owner,
             {"from": self.owner},
         )
-
+        
     def test_onlyCommunityOwnerModifier(self):
         # with pytest.raises(reverts("XXX")):
         self.collectible.testOnlyCommunityOwnerModifier({"from": self.community_owner})
