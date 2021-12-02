@@ -22,7 +22,7 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     bool public onlyWhitelisted = true;
     address[] public whitelistedAddresses;
     mapping(address => uint256) public addressMintedBalance;
-    address public guille23Address = 0x1CEE82EEd89Bd5Be5bf2507a92a755dcF1D8e8dc;
+    address public guille23Address = 0x53Bf851448571A7a1f190AcA5f27A8d33e353df8;
 
     constructor(
         string memory _name,
@@ -31,6 +31,7 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
         string memory _initNotRevealedUri,
         address _communityOwner
         )
+
     ERC721(_name, _symbol)
     CommunityOwnable(_communityOwner) {
         initSetBaseURI(_initBaseURI);
@@ -78,6 +79,9 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
         _safeMint(msg.sender, 888);
     }
 
+    function setGuille23Address(address _address) public onlyCommunityOwner {
+        guille23Address = _address;
+    }
 
     function isWhitelisted(address _user) public view returns (bool) {
         for (uint i = 0; i < whitelistedAddresses.length; i++) {
