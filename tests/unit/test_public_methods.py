@@ -33,6 +33,7 @@ class TestPublicMethods:
 
         self.owner = get_account()
         self.non_owner = get_account(index=2)
+        self.non_owner_2 = get_account(index=3)
         self.community_owner = get_account(index=4)
 
         # Deploy
@@ -70,6 +71,32 @@ class TestPublicMethods:
         # Try to mint 6 tokens
         with pytest.raises(VirtualMachineError):
             self.collectible.mint(6, {"from": self.non_owner, "amount": 6 * MINT_PRICE})
+
+    def test_dev_addresses(self):
+        """
+        Check dev addresses
+        """
+        dev_addresses = [self.collectible.devAddresses(x) for x in range(2)]
+        assert "0xa9476058979176694E16B8eC62A170334553A45c" in dev_addresses
+        assert "0x4F17562C9a6cCFE47c3ef4245eb53c047Cb2Ff1D" in dev_addresses
+
+    def test_set_dev_addresses(self):
+        """
+        Check dev addresses
+        """
+        dev_addresses = self.collectible.setDevAddresses([
+            self.non_owner, self.non_owner_2
+        ], {"from":self.community_owner})
+        dev_addresses = [self.collectible.devAddresses(x) for x in range(2)]
+        assert self.non_owner in dev_addresses
+        assert self.non_owner_2 in dev_addresses
+
+    def test_guille23_addresses(self):
+        """
+        Check dev addresses
+        """
+        guille_23_address = self.collectible.guille23Address() 
+        assert "0x53Bf851448571A7a1f190AcA5f27A8d33e353df8" == guille_23_address
 
     def test_method_setWhitelistNftPerAddressLimit(self):
         """
