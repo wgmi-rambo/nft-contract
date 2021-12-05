@@ -1,5 +1,12 @@
 // SPDX-License-Identifier: MIT
-
+/*
+##      ## ##     ## ########  ##      ## ########  #######     #####   #######   ##       ######### #########
+##      ## ####   ## ##     ## ##      ## ##        ##         ##   ##  ##     ## ##       ##        ##
+##      ## ## ##  ## ########  ##      ## ##        ##        ###   ### #######   ##       #########  ####### 
+##      ## ##  ## ## ##   ##   ##      ## ##    ### ##    ### ## ### ## ##     ## ##       ##               ##
+ ##    ##  ##   #### ##    ##   ##    ##  ##     ## ##     ## ##     ## ##     ## ##       ##               ##
+   ####    ##     ## ##     ##    ####    ######### ######### ##     ## #######   ######## ######### ########
+*/
 pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -15,8 +22,8 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     string public notRevealedUri;
     uint256 public cost = 0.06 ether;
     uint256 public maxSupply = 887;
-    uint256 public nftPerAddressLimit = 3;
-    uint256 public whitelistNftPerAddressLimit = 3;
+    uint256 public nftPerAddressLimit = 20;
+    uint256 public whitelistNftPerAddressLimit = 20;
     bool public paused = false;
     bool public revealed = false;
     bool public onlyWhitelisted = true;
@@ -25,7 +32,6 @@ contract WGMINFT is ERC721Enumerable, CommunityOwnable, Ownable {
     mapping(address => uint256) public addressMintedBalance;
     address public guille23Address = 0x53Bf851448571A7a1f190AcA5f27A8d33e353df8;
     address public withdrawAddress = 0xF18668d5A3246202029E134b57d17333e2bCA284;
-
     constructor(
         string memory _name,
         string memory _symbol,
