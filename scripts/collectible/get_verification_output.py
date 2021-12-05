@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import json
+
 from brownie import WGMINFT, network
 
 
@@ -8,4 +10,5 @@ def main():
 
     verification_info = WGMINFT.get_verification_info()
 
-    print("verification_info: ", verification_info)
+    print("verification_info:\n")
+    print(json.dumps(verification_info))
