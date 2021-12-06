@@ -9,6 +9,18 @@
 - \#dev-talk/multi-sig: https://discord.com/channels/908727219600388207/912380991786590269
 - \#nft: https://discord.com/channels/908727219600388207/909789293344616448
 
+## Notes for guille23Mint and devMint
+In order to use these functions, go to the contract on etherscan.
+Using the test contract as an example:
+1. Visit: https://rinkeby.etherscan.io/address/0x975eb08A1B1FF1782bb889dFa1D043657d1fCA23#code
+2. Click "Write Contract".
+3. Click connect to Web3 to connect your wallet.
+4. Find the guille23Mint or devMint tab and click to expand it.
+5. For "payableAmount" enter 0.
+6. **devMint() Only**: Enter your desired quantity.
+7. Click the blue "Write" button.
+8. Review and complete the transaction in your wallet.
+
 ## Prerequisites
 
 Please install or have installed the following:
